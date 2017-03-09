@@ -1,0 +1,323 @@
+" Welcome to Vim (http://go/vim).
+" auto save
+let g:auto_save = 1
+let g:auto_save_no_updatetime = 1
+let g:auto_save_in_insert_mode = 0
+
+let g:syntastic_mode_map = {'mode': 'passive'}
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+
+command Jade !/google/data/ro/teams/jade/jade  %
+" If you see this file, your homedir was just created on this workstation.
+" That means either you are new to Google (in that case, welcome!) or you
+" got yourself a faster machine.
+" Either way, the main goal of this configuration is to help you be more
+" productive; if you have ideas, praise or complaints, direct them to
+" vi-users@google.com (http://g/vi-users). We'd especially like to hear from you
+" if you can think of ways to make this configuration better for the next
+"Noogler.
+" If you want to learn more about Vim at Google, see http://go/vimintro.
+
+" Enable modern Vim features not compatible with Vi spec.
+set shell=bash
+set nocompatible              " be iMproved, required
+" Don't give attention message when an existing swap file is found.
+set shortmess+=A
+let mapleader=","             " leader is comma
+filetype off                  " required
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set writebackup
+
+" use 8 spaces for tab like gofmt
+set tabstop=8
+set softtabstop=8
+set shiftwidth=8
+set expandtab
+set colorcolumn=80
+highlight ColorColumn ctermbg=darkgray
+" insert mode map est to jk
+inoremap jk <esc> 
+
+set runtimepath+=$GOPATH/src/github.com/golang/lint/misc/vim
+command! Lint cexpr system('git5 lint --quickfix')
+"au FileType go au BufWritePost,FileWritePost <buffer> execute 'GoLint' | cwindow
+
+let g:molokai_original = 1
+let g:rehash256 = 1
+set background=dark
+"colorscheme google
+color molokai
+set cursorline
+hi CursorLine term=bold cterm=bold guibg=Grey40
+
+" set line number
+set number
+" show command in bottom bar
+set showcmd
+" highlight current line
+set cursorline
+set incsearch    " search as characters are enters
+set hlsearch     " highlight matches
+" turn off search highlight by ,<space>
+nnoremap <leader><space> :nohlsearch<CR>
+
+" adjust screen when moving cursor
+nnoremap n nzz
+nnoremap } }zz
+
+" Folding
+set foldenable    " enable folding
+noremap <space> za
+set foldlevelstart=10    " open most folds by default
+set foldnestmax=10       " 10 nested fold max
+setlocal foldmethod=syntax
+
+" Movement
+" move vertically by visual line cursor remains same vertically
+nnoremap j gj
+nnoremap k gk
+"Movement for ctrlp, ctrl + j mvoes to left split buffer
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+" highlight last inserted block
+nnoremap gV `[v`]
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:airline#extensions#tabline#enabled = 1
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = "goimports"
+let g:syntastic_go_checkers = ['go', 'golint', 'govet']
+let g:ctags_path = "usr/bin/"
+let g:ctags_statusline=1
+
+" let g:gitgutter_max_signs = 500
+" set the runtime path to include Vundle and initialize
+
+let g:Powerline_symbols = 'fancy'
+
+" vim commentter settings
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code
+" indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+set rtp+=~/.vim/bundle/Vundle.vim
+"set rtp+=$GOROOT/misc/vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'scrooloose/nerdtree'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'easymotion/vim-easymotion'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive' 
+Plugin 'fatih/vim-go'
+Plugin 'scrooloose/syntastic'
+Plugin 'majutsushi/tagbar'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'vim-scripts/vim-auto-save'
+Plugin 'dkprice/vim-easygrep'
+Plugin 'rking/ag.vim'
+Plugin 'schickling/vim-bufonly'
+
+let g:ag_prg="~/work/google3/location --vimgrep"
+let g:ackprg = 'ag --nogroup --nocolor --column'
+map <C-n> :NERDTreeToggle<CR>
+"map  / <Plug>(easymotion-sn)
+"omap / <Plug>(easymotion-tn)
+nmap <F8> :TagbarToggle<CR>
+
+" gitgutter bindings
+nmap nh <Plug>GitGutterNextHunk
+nmap ph <Plug>GitGutterPrevHunk
+nmap <Leader>hr <Plug>GitGutterUndoHunk
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to
+" EasyMotion.
+" " Without these mappings, `n` & `N` works fine. (These mappings just provide
+" " different highlight method and have some other features )
+"map  n <Plug>(easymotion-next)
+"map  N <Plug>(easymotion-prev)
+" map switching buffers
+map gn :bn<cr>
+map gp :bp<cr>
+map gd :bd<cr>
+
+let g:EasyMotion_smartcase = 1
+" " Install L9 and avoid a Naming conflict if you've already installed a
+"
+" " All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" Use the 'google' package by default (see http://go/vim/packages).
+source /usr/share/vim/google/google.vim
+source /usr/share/vim/google/glug/bootstrap.vim
+source /usr/share/vim/addons/ftplugin/go/fmt.vim
+
+" Plugin configuration.
+" See http://google3/devtools/editors/vim/examples/ for example configurations
+" and http://go/vim/plugins for more information about vim plugins at Google.
+
+" Plugin loading is commented out below - uncomment the plugins you'd like to
+" load.
+
+" Load google's formatting plugins (http://go/vim/plugins/codefmt-google).
+" The default mapping is \= (or <leader>= if g:mapleader has a custom value),
+"
+" with
+" - \== formatting the current line or selected lines in visual mode
+"   (:FormatLines).
+" - \=b formatting the full buffer (:FormatCode).
+"
+" To bind :FormatLines to the same key in insert and normal mode, add:
+"   noremap <C-K> :FormatLines<CR>
+"   inoremap <C-K> <C-O>:FormatLines<CR>
+" Glug codefmt gofmt_executable="goimports"
+Glug gtimporter
+Glug codefmt
+Glug codefmt-google
+" Glug codefmt-google enable_gclfmt
+augroup autoformat_settings
+    autocmd FileType bzl AutoFormatBuffer buildifier
+    autocmd FileType c,cpp,javascript AutoFormatBuffer clang-format
+    autocmd FileType dart AutoFormatBuffer dartfmt
+    
+    "autocmd FileType java AutoFormatBuffer google-java-format
+    autocmd FileType jslayout AutoFormatBuffer jslfmt
+    autocmd FileType go AutoFormatBuffer gofmt
+    autocmd FileType python AutoFormatBuffer pyformat
+    autocmd FileType markdown AutoFormatBuffer mdformat
+    autocmd FileType ncl AutoFormatBuffer nclfmt
+   " Optional, Other file types go here. Not maintained.
+   " autocmd FileType borg AutoFormatBuffer gclfmt
+    autocmd FileType gcl AutoFormatBuffer gclfmt
+augroup END
+
+" Enable autoformatting on save for the languages at Google that enforce
+" formatting, and for which all checked-in code is already conforming (thus,
+" autoformatting will never change unrelated lines in a file).
+"augroup autoformat_settings
+"  " For BUILD files and Go all of Google's files must be formatted.
+"autocmd FileType bzl AutoFormatBuffer buildifie
+"autocmd FileType go AutoFormatBuffer gofmt
+" remove trailing space
+"autocmd BufWritePre *.go,*.java %s/\s\+$//e
+"augroup END
+
+" Load YCM (http://go/ycm) for semantic auto-completion and quick syntax
+" error checking. Pulls in a google3-enabled version of YCM itself and
+" a google3-specific default configuration.
+Glug youcompleteme-google
+
+" Load the automated blaze dependency integreation for Go.
+" Note: for Go, blazedeps uses the Go team's glaze tool, which is fully
+" supported by the Go team; for other languages. Note that the plugin is
+" currently unsupported for other languages.
+Glug blazedeps auto_filetypes=`['go']`
+
+" Load piper integration (http://wiki/Main/VimPerforce).
+Glug piper plugin[mappings]
+
+" Load the Critique integration. Use :h critique for more details.
+"Glug critique plugin[mappings]
+
+" Load blaze integration (http://go/blazevim).
+Glug blaze plugin[mappings]
+
+" Load the syntastic plugin (http://go/vim/plugins/syntastic-google).
+" Note: this requires installing the upstream syntastic plugin from
+" https://github.com/scrooloose/syntastic.
+Glug syntastic-google
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+" Load the ultisnips plugin (http://go/ultisnips).
+" Note: this requires installing the upstream ultisnips plugin from
+" https://github.com/SirVer/ultisnips.
+Glug ultisnips-google
+
+" All of your plugins must be added before the following line.
+
+" Enable file type based indent configuration and syntax highlighting.
+" Note that when code is pasted via the terminal, vim by default does not detect
+" that the code is pasted (as opposed to when using vim's paste mappings), which
+" leads to incorrect indentation when indent mode is on.
+" To work around this, use ":set paste" / ":set nopaste" to toggle paste mode.
+" You can also use a plugin to:
+" - enter insert mode with paste (https://github.com/tpope/vim-unimpaired)
+" - auto-detect pasting (https://github.com/ConradIrwin/vim-bracketed-paste)
+filetype plugin indent on
+syntax on
+
+set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+
+" Always show statusline
+set laststatus=2
+" Use 256 colours (Use this setting only if your terminal supports 256
+" colours)
+set t_Co=256
+
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
+
+
