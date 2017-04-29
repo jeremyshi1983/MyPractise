@@ -49,8 +49,8 @@ command! Lint cexpr system('git5 lint --quickfix')
 let g:molokai_original = 1
 let g:rehash256 = 1
 set background=dark
-"colorscheme google
-color molokai
+colorscheme jellybeans
+"color molokai
 set cursorline
 hi CursorLine term=bold cterm=bold guibg=Grey40
 
@@ -64,6 +64,13 @@ set incsearch    " search as characters are enters
 set hlsearch     " highlight matches
 " turn off search highlight by ,<space>
 nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
+
+" ctrl + j to navigate splits.
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 " adjust screen when moving cursor
 nnoremap n nzz
@@ -72,9 +79,10 @@ nnoremap } }zz
 " Folding
 set foldenable    " enable folding
 noremap <space> za
-set foldlevelstart=10    " open most folds by default
+"set foldlevelstart=10    " open most folds by default
 set foldnestmax=10       " 10 nested fold max
-setlocal foldmethod=syntax
+set foldmethod=indent
+set nofoldenable
 
 " Movement
 " move vertically by visual line cursor remains same vertically
@@ -85,9 +93,14 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" select last paste in visual mode
+nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
+
 " highlight last inserted block
 nnoremap gV `[v`]
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:airline_theme='bubblegum'
 let g:airline#extensions#tabline#enabled = 1
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:airline#extensions#tabline#left_sep = ' '
@@ -131,7 +144,6 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 set rtp+=~/.vim/bundle/Vundle.vim
-"set rtp+=$GOROOT/misc/vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -191,6 +203,7 @@ source /usr/share/vim/google/google.vim
 source /usr/share/vim/google/glug/bootstrap.vim
 source /usr/share/vim/addons/ftplugin/go/fmt.vim
 
+
 " Plugin configuration.
 " See http://google3/devtools/editors/vim/examples/ for example configurations
 " and http://go/vim/plugins for more information about vim plugins at Google.
@@ -233,8 +246,8 @@ augroup END
 " Enable autoformatting on save for the languages at Google that enforce
 " formatting, and for which all checked-in code is already conforming (thus,
 " autoformatting will never change unrelated lines in a file).
-"augroup autoformat_settings
-"  " For BUILD files and Go all of Google's files must be formatted.
+augroup autoformat_settings
+" For BUILD files and Go all of Google's files must be formatted.
 "autocmd FileType bzl AutoFormatBuffer buildifie
 "autocmd FileType go AutoFormatBuffer gofmt
 " remove trailing space
@@ -271,6 +284,10 @@ let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 " https://github.com/SirVer/ultisnips.
 Glug ultisnips-google
 
+"The blazedeps plugin helps you update your BUILD files as you add/remove
+" dependencies in code files.
+Glug blazedeps
+
 " All of your plugins must be added before the following line.
 
 " Enable file type based indent configuration and syntax highlighting.
@@ -283,8 +300,6 @@ Glug ultisnips-google
 " - auto-detect pasting (https://github.com/ConradIrwin/vim-bracketed-paste)
 filetype plugin indent on
 syntax on
-
-set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 
 " Always show statusline
 set laststatus=2
